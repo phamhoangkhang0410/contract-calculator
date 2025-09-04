@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Gia hạn chữ ký số - Panda Style</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f6f9fc;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-image: url('https://img.freepik.com/free-vector/flat-design-panda-pattern-design_23-2150569174.jpg?semt=ais_incoming&w=740&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+    }
+
+    .container::before {
+      content: "🐼";
+      font-size: 60px;
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    h2 {
+      margin-top: 20px;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+
+    button {
+      background: #2e8b57;
+      color: #fff;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #256f47;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #2e3d49;
+    }
+
+    .panda-decor {
+      font-size: 40px;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>🐼 Gia hạn chữ ký số</h2>
+
+    <label for="signDate">Ngày ký hợp đồng:</label>
+    <input type="date" id="signDate">
+
+    <label for="expireDate">Ngày hết hạn hiện tại:</label>
+    <input type="date" id="expireDate">
+
+    <label for="remainDays">Số ngày còn lại:</label>
+    <input type="number" id="remainDays" placeholder="Ví dụ: 5">
+
+    <label for="years">Gia hạn thêm (năm):</label>
+    <input type="number" id="years" placeholder="Ví dụ: 2">
+
+    <label for="months">Gia hạn thêm (tháng):</label>
+    <input type="number" id="months" placeholder="Ví dụ: 6">
+
+    <button onclick="calculateNewDate()">Tính ngày kết thúc</button>
+
+    <div class="result" id="result"></div>
+    <div class="panda-decor">🐼🎋🐼</div>
+  </div>
+
+  <script>
+    function calculateNewDate() {
+      const signDate = new Date(document.getElementById("signDate").value);
+      const expireDate = new Date(document.getElementById("expireDate").value);
+      const remainDays = parseInt(document.getElementById("remainDays").value);
+      const years = parseInt(document.getElementById("years").value) || 0;
+      const months = parseInt(document.getElementById("months").value) || 0;
+
+      if (!signDate || !expireDate || isNaN(remainDays)) {
+        document.getElementById("result").innerText = "⚠️ Vui lòng nhập đầy đủ thông tin.";
+        return;
+      }
+
+      // Bước 1: tính ngày thực tế hết hạn dựa trên remainDays
+      let realExpireDate = new Date(signDate);
+      realExpireDate.setDate(realExpireDate.getDate() + remainDays);
+
+      // Bước 2: cộng thêm số năm + tháng gia hạn
+      realExpireDate.setFullYear(realExpireDate.getFullYear() + years);
+      realExpireDate.setMonth(realExpireDate.getMonth() + months);
+
+      const formatted = realExpireDate.toLocaleDateString('vi-VN');
+      document.getElementById("result").innerText = `📅 Ngày kết thúc hợp đồng mới: ${formatted}`;
+    }
+  </script>
+</body>
+
+</html>
